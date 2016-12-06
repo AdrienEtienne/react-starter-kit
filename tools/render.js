@@ -29,7 +29,7 @@ async function render() {
 
   await routes.reduce((promise, route) => promise.then(async () => {
     const url = `http://${host}${route}`;
-    const dir = `build/public${route.replace(/[^\/]*$/, '')}`;
+    const dir = `build/public${route.replace(/[^\/]*$/, '')}`; // eslint-disable-line
     const name = route.endsWith('/') ? 'index.html' : `${route.match(/[^/]+$/)[0]}.html`;
     const dist = `${dir}${name}`;
     const res = await fetch(url);

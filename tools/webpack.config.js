@@ -273,7 +273,7 @@ const serverConfig = extend(true, {}, config, {
 
   externals: [
     /^\.\/assets$/,
-    /^[@a-z][a-z\/\.\-0-9]*$/i,
+    /^[@a-z][a-z\/\.\-0-9]*$/i, // eslint-disable-line
   ],
 
   plugins: [
