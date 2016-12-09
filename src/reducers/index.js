@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import user from './user';
+import auth from './auth';
 import runtime from './runtime';
 
 export default combineReducers({
-  user,
+  auth,
   runtime,
 });

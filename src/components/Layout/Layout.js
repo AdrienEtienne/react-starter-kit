@@ -9,6 +9,8 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { connect } from 'react-redux';
+import { retrieveUser } from '../../actions/auth';
 import s from './Layout.css';
 import Header from '../Header';
 import Feedback from '../Feedback';
@@ -17,7 +19,12 @@ import Footer from '../Footer';
 class Layout extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
+    retrieveUser: PropTypes.func.isRequired,
   };
+
+  componentDidMount() {
+    this.props.retrieveUser();
+  }
 
   render() {
     return (
@@ -31,4 +38,9 @@ class Layout extends React.Component {
   }
 }
 
-export default withStyles(s)(Layout);
+const mapState = () => ({});
+const mapDispatch = {
+  retrieveUser,
+};
+
+export default withStyles(s)(connect(mapState, mapDispatch)(Layout));

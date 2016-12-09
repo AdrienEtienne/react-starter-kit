@@ -13,13 +13,6 @@ import Promise from 'bluebird';
 import fm from 'front-matter';
 import MarkdownIt from 'markdown-it';
 
-import {
-  GraphQLString as StringType,
-  GraphQLNonNull as NonNull,
-} from 'graphql';
-
-import ContentType from '../types/ContentType';
-
 const md = new MarkdownIt();
 
 // A folder with Markdown/HTML content pages
@@ -82,20 +75,19 @@ async function resolveFileName(path) {
   return { success: false, fileName: null, extension: null };
 }
 
-const content = {
-  type: ContentType,
-  args: {
-    path: { type: new NonNull(StringType) },
-  },
-  async resolve({ request }, { path }) {
-    const { success, fileName, extension } = await resolveFileName(path);
-    if (!success) {
-      return null;
-    }
+export default async function get(req, res) {
+  const path = req.params.path;
 
+  const { success, fileName, extension } = await resolveFileName(path);
+  if (!success) {
+    return res.status(404).end();
+  }
+
+  try {
     const source = await readFile(fileName, { encoding: 'utf8' });
-    return parseContent(path, source, extension);
-  },
-};
-
-export default content;
+    const data = parseContent(path, source, extension);
+    return res.status(200).json(data);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}

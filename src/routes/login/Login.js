@@ -9,19 +9,48 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions/auth';
+import MongooseError from '../../components/Utils/MongooseError';
 import s from './Login.css';
 
 class Login extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
+    loginUser: PropTypes.func.isRequired,
+    errors: React.PropTypes.object.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { email: '', password: '', submitted: false };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event, attr) {
+    const newState = {};
+    newState[attr] = event.target.value;
+    this.setState(newState);
+    this.setState({ submitted: false });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.setState({ submitted: true });
+    this.props.loginUser(this.state.email, this.state.password);
+  }
+
   render() {
+    let errors = {};
+    if (this.state.submitted) errors = this.props.errors;
+
     return (
       <div className={s.root}>
         <div className={s.container}>
           <h1>{this.props.title}</h1>
-          <p className={s.lead}>Log in with your username or company email address.</p>
+          <p className={s.lead}>Log in with your email address.</p>
           <div className={s.formGroup}>
             <a className={s.facebook} href="/login/facebook">
               <svg
@@ -84,18 +113,20 @@ class Login extends React.Component {
             </a>
           </div>
           <strong className={s.lineThrough}>OR</strong>
-          <form method="post">
+          <form onSubmit={this.handleSubmit}>
             <div className={s.formGroup}>
-              <label className={s.label} htmlFor="usernameOrEmail">
-                Username or email address:
+              <label className={s.label} htmlFor="email">
+                Email address:
               </label>
               <input
                 className={s.input}
-                id="usernameOrEmail"
                 type="text"
-                name="usernameOrEmail"
+                name="email"
+                value={this.state.value} onChange={(e) => this.handleChange(e, 'email')}
                 autoFocus
+                required
               />
+              <MongooseError error={errors.email} />
             </div>
             <div className={s.formGroup}>
               <label className={s.label} htmlFor="password">
@@ -103,10 +134,12 @@ class Login extends React.Component {
               </label>
               <input
                 className={s.input}
-                id="password"
                 type="password"
                 name="password"
+                value={this.state.value} onChange={(e) => this.handleChange(e, 'password')}
+                required
               />
+              <MongooseError error={errors.password} />
             </div>
             <div className={s.formGroup}>
               <button className={s.button} type="submit">
@@ -120,4 +153,11 @@ class Login extends React.Component {
   }
 }
 
-export default withStyles(s)(Login);
+const mapState = (state) => ({
+  errors: state.auth.errors,
+});
+const mapDispatch = {
+  loginUser,
+};
+
+export default withStyles(s)(connect(mapState, mapDispatch)(Login));

@@ -20,7 +20,11 @@ import Layout from './Layout';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
-const initialState = {};
+const initialState = {
+  auth: {
+    isAuthenticated: false,
+  },
+};
 
 describe('Layout', () => {
   it('renders children correctly', () => {

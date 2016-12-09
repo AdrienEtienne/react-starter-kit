@@ -9,16 +9,16 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
+import { isAdmin } from '../../reducers/auth';
 
 const title = 'Admin Page';
-const isAdmin = false;
 
 export default {
 
   path: '/admin',
 
-  async action() {
-    if (!isAdmin) {
+  async action(context) {
+    if (!isAdmin(context.store.getState())) {
       return { redirect: '/login' };
     }
 
