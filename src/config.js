@@ -16,7 +16,7 @@ export const databaseUrl = process.env.DATABASE_URL || 'sqlite:database.sqlite';
 
 export const logger = {
   console: process.env.LOGGER_CONSOLE || (process.env.NODE_ENV !== 'test'),
-  level: process.env.LOGGER_LEVEL || ( process.env.NODE_ENV === 'development' ? 'silly' :'info' ),
+  level: process.env.LOGGER_LEVEL || (process.env.NODE_ENV === 'development' ? 'silly' : 'info'),
 };
 
 export const analytics = {
