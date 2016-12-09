@@ -33,7 +33,6 @@ import { port, auth, logger } from './config';
 
 const app = express();
 
-if (!logger.console) winston.remove(winston.transports.Console);
 winston.level = logger.level;
 
 //
