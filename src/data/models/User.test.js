@@ -39,4 +39,10 @@ describe('data models User', () => {
       expect(user.authenticate('false password')).to.equal(false);
     });
   });
+
+  describe('encryptPassword', () => {
+    it('should be equal', () => {
+      expect(user.password).to.equal(user.encryptPassword('password'));
+    });
+  });
 });
