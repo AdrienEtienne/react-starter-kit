@@ -14,12 +14,18 @@ import dummyData from './dummyData';
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
-// MongoDB Connection
-mongoose.connect(databaseUrl, (error) => {
-  if (error) {
+  // MongoDB Connection
+mongoose.connect(databaseUrl, {
+  db: {
+    safe: true,
+  },
+});
+
+mongoose
+  .connection
+  .on('error', (error) => {
     console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
     throw error;
-  }
+  });
 
-  dummyData();
-});
+dummyData();

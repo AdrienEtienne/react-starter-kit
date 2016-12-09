@@ -24,11 +24,11 @@ require.extensions['.jpg'] = noop;
 require.extensions['.jpeg'] = noop;
 require.extensions['.gif'] = noop;
 
-require('../src/data/mongoose');
-
-var chai = require('chai');
+const chai = require('chai');
 
 // Load Chai assertions
 global.expect = chai.expect;
 global.assert = chai.assert;
 chai.should();
+
+require('../src/data/mongoose');
