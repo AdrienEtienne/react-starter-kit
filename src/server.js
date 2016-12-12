@@ -9,7 +9,6 @@
 
 import 'babel-polyfill';
 import path from 'path';
-import winston from 'winston';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -29,11 +28,9 @@ import models from './data/models';
 import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
-import { port, auth, logger } from './config';
+import { port, auth } from './config';
 
 const app = express();
-
-winston.level = logger.level;
 
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
