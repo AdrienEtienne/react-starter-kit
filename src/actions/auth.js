@@ -44,18 +44,18 @@ export function logoutAndRedirect() {
 }
 
 const handleResponse = async (redirect, response, dispatch, token) => {
-  const body = await response.json();
-  if (response.status >= 400) {
-    let errors = {};
-    if (body.errors) errors = body.errors;
-    dispatch(loginUserFailure(response.status, response.statusText, errors));
-  } else {
-    try {
+  try {
+    const body = await response.json();
+    if (response.status >= 400) {
+      let errors = {};
+      if (body.errors) errors = body.errors;
+      dispatch(loginUserFailure(response.status, response.statusText, errors));
+    } else {
       dispatch(loginUserSuccess(token || body.token));
       history.push(redirect);
-    } catch (e) {
-      dispatch(loginUserFailure(403, 'Invalid token'));
     }
+  } catch (error) {
+    dispatch(loginUserFailure(response.status, 'Invalid token'));
   }
 };
 
