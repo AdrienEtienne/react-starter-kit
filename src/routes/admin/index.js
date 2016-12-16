@@ -13,11 +13,7 @@ export default {
   children: [
     {
       path: '/',
-      async action(context) {
-        if (!isAdmin(context.store.getState())) {
-          return { redirect: '/' };
-        }
-
+      async action() {
         const Admin = await new Promise((resolve) => {
           require.ensure([], (require) => resolve(require('./Admin').default), 'admin');
         });
@@ -32,7 +28,10 @@ export default {
     require('./users').default,
   ],
 
-  action() {
+  action({ store }) {
+    if (!isAdmin(store.getState())) {
+      return { redirect: '/' };
+    }
     return null;
   },
 
