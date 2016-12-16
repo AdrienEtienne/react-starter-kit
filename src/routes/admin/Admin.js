@@ -9,6 +9,7 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import Link from '../../components/Link';
 import s from './Admin.css';
 
 class Admin extends React.Component {
@@ -21,7 +22,7 @@ class Admin extends React.Component {
       <div className={s.root}>
         <div className={s.container}>
           <h1>{this.props.title}</h1>
-          <p>...</p>
+          <p><Link to="/admin/users">Users</Link></p>
         </div>
       </div>
     );

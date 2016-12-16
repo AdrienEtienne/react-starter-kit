@@ -99,7 +99,7 @@ class Profile extends React.Component {
             </div>
             <div className={s.formGroup}>
               <button className={s.button} type="submit">
-                Log in
+                Change Password
               </button>
               <p>{message}</p>
             </div>
