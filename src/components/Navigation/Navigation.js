@@ -39,7 +39,7 @@ class Navigation extends React.Component {
 
     return (
       <div className={cx(s.root, this.props.className)} role="navigation">
-        {this.props.userName ? <span>Welcome {this.props.userName} - </span> : null}
+        {this.props.userName ? <Link className={s.link} to="/profile">{this.props.userName}</Link> : null}
 
         <Link className={s.link} to="/about">About</Link>
         <Link className={s.link} to="/contact">Contact</Link>
