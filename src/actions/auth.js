@@ -56,6 +56,7 @@ const handleResponse = async (redirect, response, dispatch, token) => {
     }
   } catch (error) {
     dispatch(loginUserFailure(response.status, 'Invalid token'));
+    dispatch(logout());
   }
 };
 
