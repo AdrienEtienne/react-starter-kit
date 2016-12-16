@@ -10,7 +10,7 @@ export default {
 
   async action(context) {
     if (!isAuthenticated(context.store.getState())) {
-      return { redirect: '/login' };
+      return { redirect: '/' };
     }
 
     const Profile = await new Promise((resolve) => {

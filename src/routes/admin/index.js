@@ -15,7 +15,7 @@ export default {
       path: '/',
       async action(context) {
         if (!isAdmin(context.store.getState())) {
-          return { redirect: '/login' };
+          return { redirect: '/' };
         }
 
         const Admin = await new Promise((resolve) => {
