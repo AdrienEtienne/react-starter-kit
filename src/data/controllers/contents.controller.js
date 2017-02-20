@@ -36,7 +36,7 @@ const parseContent = (path, fileContent, extension) => {
 };
 
 const readFile = Promise.promisify(fs.readFile);
-const fileExists = filename => new Promise(resolve => {
+const fileExists = (filename) => new Promise(resolve => {
   fs.exists(filename, resolve);
 });
 

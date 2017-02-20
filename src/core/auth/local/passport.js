@@ -5,7 +5,7 @@ function localAuthenticate(User, email, password, done) {
   User.findOne({
     email: email.toLowerCase(),
   }).exec()
-    .then(user => {
+    .then((user) => {
       if (!user) {
         return done(null, false, {
           errors: { email: { message: 'This email is not registered.' } },

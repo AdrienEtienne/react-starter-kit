@@ -9,7 +9,9 @@ const MongooseError = ({ error }) => {
 };
 
 MongooseError.propTypes = {
-  error: React.PropTypes.object,
+  error: React.PropTypes.shape({
+    message: React.PropTypes.string.isRequired,
+  }),
 };
 
 export default MongooseError;

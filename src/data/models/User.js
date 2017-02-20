@@ -1,7 +1,7 @@
 /**
  * React Starter Kit (https://www.reactstarterkit.com/)
  *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+ * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
@@ -68,12 +68,12 @@ UserSchema
 // Validate empty email
 UserSchema
   .path('email')
-  .validate((email) => email.length, 'Email cannot be blank');
+  .validate(email => email.length, 'Email cannot be blank');
 
 // Validate empty password
 UserSchema
   .path('password')
-  .validate((password) => password.length, 'Password cannot be blank');
+  .validate(password => password.length, 'Password cannot be blank');
 
 UserSchema.path('email').validate((email) => {
   const emailRegex = /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -103,7 +103,7 @@ UserSchema
       });
   }, 'The specified email address is already in use.');
 
-const validatePresenceOf = (value) => value && value.length;
+const validatePresenceOf = value => value && value.length;
 
 /**
  * Pre-save hook

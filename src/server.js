@@ -1,13 +1,12 @@
 /**
  * React Starter Kit (https://www.reactstarterkit.com/)
  *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+ * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import UniversalRouter from 'universal-router';
@@ -17,7 +16,7 @@ import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
 import routes from './routes';
-import assets from './assets'; // eslint-disable-line import/no-unresolved
+import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import { port } from './config';
@@ -90,7 +89,9 @@ app.get('*', async (req, res, next) => {
 
     const data = { ...route };
     data.children = ReactDOM.renderToString(<App context={context}>{route.component}</App>);
-    data.style = [...css].join('');
+    data.styles = [
+      { id: 'css', cssText: [...css].join('') },
+    ];
     data.scripts = [
       assets.vendor.js,
       assets.client.js,

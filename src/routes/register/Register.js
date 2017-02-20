@@ -1,7 +1,7 @@
 /**
  * React Starter Kit (https://www.reactstarterkit.com/)
  *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+ * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
@@ -60,7 +60,7 @@ class Register extends React.Component {
                 className={s.input}
                 type="text"
                 name="fullname"
-                value={this.state.value} onChange={(e) => this.handleChange(e, 'name')}
+                value={this.state.value} onChange={e => this.handleChange(e, 'name')}
                 autoFocus
                 required
               />
@@ -74,7 +74,7 @@ class Register extends React.Component {
                 className={s.input}
                 type="text"
                 name="email"
-                value={this.state.value} onChange={(e) => this.handleChange(e, 'email')}
+                value={this.state.value} onChange={e => this.handleChange(e, 'email')}
                 required
               />
               <MongooseError error={errors.email} />
@@ -87,7 +87,7 @@ class Register extends React.Component {
                 className={s.input}
                 type="password"
                 name="password"
-                value={this.state.value} onChange={(e) => this.handleChange(e, 'password')}
+                value={this.state.value} onChange={e => this.handleChange(e, 'password')}
                 required
               />
               <MongooseError error={errors.password} />
@@ -104,7 +104,7 @@ class Register extends React.Component {
   }
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   errors: state.auth.errors,
 });
 const mapDispatch = {

@@ -1,7 +1,7 @@
 /**
  * React Starter Kit (https://www.reactstarterkit.com/)
  *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+ * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
@@ -25,6 +25,11 @@ class Navigation extends React.Component {
     logoutAndRedirect: PropTypes.func.isRequired,
   };
 
+  static defaultProps = {
+    className: '',
+    userName: '',
+  }
+
   render() {
     let buttons = null;
     if (!this.props.isAuthenticated) {
@@ -40,7 +45,6 @@ class Navigation extends React.Component {
     return (
       <div className={cx(s.root, this.props.className)} role="navigation">
         {this.props.userName ? <Link className={s.link} to="/profile">{this.props.userName}</Link> : null}
-
         <Link className={s.link} to="/about">About</Link>
         <Link className={s.link} to="/contact">Contact</Link>
 
@@ -54,7 +58,7 @@ class Navigation extends React.Component {
   }
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   userName: state.auth.userName,
   isAdmin: isAdmin(state),

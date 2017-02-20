@@ -9,18 +9,19 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import Login from './Login';
-
-const title = 'Log In';
+import Page from '../../components/Page';
 
 export default {
 
-  path: '/login',
+  path: '/about',
 
-  action() {
+  async action() {
+    const data = await require.ensure([], require => require('./about.md'), 'about');
+
     return {
-      title,
-      component: <Layout><Login title={title} /></Layout>,
+      title: data.title,
+      chunk: 'about',
+      component: <Layout><Page {...data} /></Layout>,
     };
   },
 

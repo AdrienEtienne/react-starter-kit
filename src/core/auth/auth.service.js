@@ -32,7 +32,7 @@ export function isAuthenticated() {
     .use((req, res, next) => {
       const request = req;
       User.findOne({ cuid: req.user.cuid }).exec()
-        .then(user => {
+        .then((user) => {
           if (!user) {
             return res.status(401).end();
           }
