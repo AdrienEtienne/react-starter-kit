@@ -15,7 +15,7 @@ export default function setup(User, config) {
   },
   (accessToken, refreshToken, profile, done) => {
     User.findOne({ 'facebook.id': profile.id }).exec()
-      .then(user => {
+      .then((user) => {
         if (user) {
           return done(null, user);
         }

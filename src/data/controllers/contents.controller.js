@@ -36,7 +36,7 @@ const parseContent = (path, fileContent, extension) => {
 };
 
 const readFile = Promise.promisify(fs.readFile);
-const fileExists = (filename) => new Promise(resolve => {
+const fileExists = filename => new Promise((resolve) => {
   fs.exists(filename, resolve);
 });
 
@@ -58,17 +58,23 @@ async function resolveExtension(path, extension) {
     return { success: false };
   }
 
-  return { success: true, fileName };
+  return { success: true, fileName, extension };
 }
 
 async function resolveFileName(path) {
   const extensions = ['.md', '.html'];
 
+  const tmp = [];
   for (let i = 0; i < extensions.length; i += 1) {
     const extension = extensions[i];
-    const maybeFileName = await resolveExtension(path, extension);
+    tmp.push(resolveExtension(path, extension));
+  }
+  const files = Promise.all(tmp);
+
+  for (let i = 0; i < files.length; i += 1) {
+    const maybeFileName = extensions[i];
     if (maybeFileName.success) {
-      return { success: true, fileName: maybeFileName.fileName, extension };
+      return { success: true, fileName: maybeFileName.fileName, extension: maybeFileName.extension };
     }
   }
 
