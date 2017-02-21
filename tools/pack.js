@@ -52,11 +52,20 @@ ${run}`;
 
 function zip(output) {
   return new Promise((resolve, reject) => {
-    const platform = os.platform() === 'win32' ? 'win' : os.platform();
+    let platform = '';
+    let archiveExtension = '';
+    if (os.platform() === 'win32') {
+      platform = 'win';
+      archiveExtension = 'zip';
+    } else {
+      platform = os.platform();
+      archiveExtension = 'tar';
+    }
     const arch = os.arch();
 
-    const ws = fs.createWriteStream(`${output}/${name}_${version}_${platform}_${arch}.zip`);
-    const archive = archiver('zip', {
+    const ws = fs.createWriteStream(
+      `${output}/${name}_${version}_${platform}_${arch}.${archiveExtension}`);
+    const archive = archiver(archiveExtension, {
       store: true,
     });
 
