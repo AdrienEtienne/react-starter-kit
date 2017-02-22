@@ -11,13 +11,12 @@
  * Creates application bundles from the source files.
  */
 
-import del from 'del';
-import copydir from 'copy-dir';
 import { exec } from 'child_process';
 import os from 'os';
 import fs from 'fs';
 import _ from 'lodash';
 import archiver from 'archiver';
+import { cleanDir, writeFile, makeDir } from './lib/fs';
 import { name, version } from '../package.json';
 
 function execAsync(...args) {
@@ -29,7 +28,7 @@ function execAsync(...args) {
   });
 }
 
-function writeScripts(appFile, output, env, run) {
+async function writeScripts(appFile, env, run) {
   let start = '';
   if (os.platform() === 'win32') {
     _.forEach(env, (value, key) => {
@@ -47,7 +46,7 @@ ${key}=${value}`;
   
 ${run}`;
 
-  fs.writeFileSync(`${output}/tmp/start.bat`, start);
+  await writeFile('build/start.bat', start);
 }
 
 function zip(output) {
@@ -72,27 +71,25 @@ function zip(output) {
     ws.on('close', () => resolve());
     archive.on('error', (e) => reject(e));
     archive.pipe(ws);
-    archive.directory(`${output}/tmp`, '');
+    archive.directory('build', '');
     archive.finalize();
   });
 }
 
 async function execute(config = {}) {
   const appFile = config.appFile || 'index.js';
-  const src = config.src || 'build';
-  const output = config.output || 'pack';
   const run = config.run;
+  const output = config.output || 'pack';
   const env = config.env || {};
 
   console.log(`CLEAN OUTPUT FOLDER : ${output}`);
-  await del([`${output}/**`]);
-  console.log(`COPY OUTPUT FOLDER : ${output}`);
-  copydir.sync(src, `${output}/tmp`);
+  await cleanDir(output);
   console.log('INSTALL DEPENDANCIES');
-  await execAsync(`cd ./${output}/tmp && npm install --production`);
+  await execAsync('cd ./build && npm install --production');
   console.log('WRITE SCRIPTS');
-  writeScripts(appFile, output, env, run);
+  await writeScripts(appFile, env, run);
   console.log('CREATE ARCHIVE');
+  await makeDir(output);
   await zip(output);
 }
 
@@ -100,8 +97,8 @@ export default async function pack() {
   await execute({
     appFile: 'server.js',
     src: 'build',
-    output: 'pack',
     run: 'npm start',
+    output: 'pack',
     env: {
       WEBSITE_HOSTNAME: '127.0.0.1:8080',
       PORT: 8080,
