@@ -29,6 +29,7 @@ import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port, auth } from './config';
+import logger from './logger';
 
 const app = express();
 
@@ -158,7 +159,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 /* eslint-disable no-console */
 models.sync().catch(err => console.error(err.stack)).then(() => {
   app.listen(port, () => {
-    console.log(`The server is running at http://localhost:${port}/`);
+    logger.info(`The server is running at http://localhost:${port}/`);
   });
 });
 /* eslint-enable no-console */

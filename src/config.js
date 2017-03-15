@@ -14,10 +14,12 @@ export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 
 export const databaseUrl = process.env.DATABASE_URL || 'sqlite:database.sqlite';
 
-export const logger = {
-  console: process.env.LOGGER_CONSOLE || (process.env.NODE_ENV !== 'test'),
-  level: process.env.LOGGER_LEVEL || (process.env.NODE_ENV === 'development' ? 'silly' : 'info'),
-};
+export const LOGGER_CONSOLE = process.env.LOGGER_CONSOLE ?
+  (process.env.LOGGER_CONSOLE || '').toLowerCase() === 'true' :
+  (process.env.NODE_ENV !== 'test');
+export const LOGGER_LEVEL = process.env.LOGGER_LEVEL || (process.env.NODE_ENV === 'development' ? 'silly' : 'info');
+export const LOGGER_FILE = (process.env.LOGGER_FILE || '').toLowerCase() === 'true';
+export const LOGGER_FILE_NAME = process.env.LOGGER_FILE_NAME || 'react-starter-kit';
 
 export const analytics = {
 
